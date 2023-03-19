@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5引入了一種讓網頁設計師通過標籤控制用戶的 viewport (可見區域)的方法。viewport 隨著設備的不同而變化，而且在手機上比在電腦屏幕上更小。 -->
+    <title>訢辰小耳症小工具</title>
+    <!-- 這邊設定CSS樣式 -->
+    <style>
+        /* 這邊是填寫要設定的CSS樣式 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;400;900&display=swap');
+
+        * {
+            font-family: 'Noto Serif TC', serif, sans-serif;
+            font-weight: 200;
+            font-size: medium;
+        }
+
+        .markit {
+            font-weight: 900;
+            font-size: large;
+        }
+
+        .asblack {
+            color: black;
+        }
+
+        .asblue {
+            color: blue;
+        }
+
+        .asred {
+            color: red;
+        }
+
+        .asunderline {
+            text-decoration: underline;
+        }
+
+        body {
+            background-image: linear-gradient(180deg, #FFFFFF, #81d8d0);
+        }
+
+        ul {
+            margin-left: 1.2em;
+            padding-left: 0;
+        }
+
+        input {
+            font-weight: 900;
+            font-size: large;
+            text-align: center;
+        }
+    </style>
+    <script>
+        // 這邊用來進行四捨五入的計算
+        function roundit(x, n) {
+            return ((Math.round(x * (10 ** n))) / (10 ** n)).toFixed(n)
+        }
+        // 這邊用來以藥物濃度與體重算出毫升數
+        function calvol(conc, need, bw) {
+            // conc (mg/mL)
+            // need (mg/Kg)
+            // bw (Kg)
+            answer = roundit(((bw * need) / conc), 2);
+            return answer
+        }
+        function showresult() {
+            let report = document.getElementById("reportresult");
+            // 下面要先顯示報告內容
+            report.style = "display: block";
+            // 計算年齡
+            let birthtime = new Date(document.getElementById("birthday").value).getTime();
+            //  然後計算到小數第一位
+            let difftime_x = (Date.now() - birthtime) / (365 * 24 * 60 * 60 * 1000);
+            let difftime_0 = roundit(difftime_x, 0);
+            let difftime_1 = roundit(difftime_x, 1);
+            // 放到年齡體重身高指定id
+            let reportage_1 = document.getElementById("age_1");
+            reportage_1.textContent = " " + difftime_1 + " ";
+            let reportage_2 = document.getElementById("age_2");
+            reportage_2.textContent = " " + difftime_1 + " ";
+            // 
+            let bw = document.getElementById("bodyw").value;
+            let reportbw = document.getElementById("bw");
+            reportbw.textContent = " " + bw + " ";
+            let reportbw_2 = document.getElementById("bw_2");
+            reportbw_2.textContent = " " + bw + " ";
+            // 
+            let bh = document.getElementById("bodyh").value;
+            let reportbh = document.getElementById("bh");
+            reportbh.textContent = " " + bh + " ";
+            let reportbh_2 = document.getElementById("bh_2");
+            reportbh_2.textContent = " " + bh + " ";
+            // 計算口服藥物
+            let k05 = document.getElementById("k05");
+            k05.textContent = " " + calvol(50, 0.5, bw) + " "
+            let k10 = document.getElementById("k10");
+            k10.textContent = " " + calvol(50, 1, bw) + " "
+            let k15 = document.getElementById("k15");
+            k15.textContent = " " + calvol(50, 1.5, bw) + " "
+            let k20 = document.getElementById("k20");
+            k20.textContent = " " + calvol(50, 2, bw) + " "
+            let k25 = document.getElementById("k25");
+            k25.textContent = " " + calvol(50, 2.5, bw) + " "
+            let k30 = document.getElementById("k30");
+            k30.textContent = " " + calvol(50, 3, bw) + " "
+            let m05 = document.getElementById("m05");
+            m05.textContent = " " + calvol(5, 0.5, bw) + " "
+            let m10 = document.getElementById("m10");
+            m10.textContent = " " + calvol(5, 1, bw) + " "
+            let m15 = document.getElementById("m15");
+            m15.textContent = " " + calvol(5, 1.5, bw) + " "
+            let m20 = document.getElementById("m20");
+            m20.textContent = " " + calvol(5, 2, bw) + " "
+            let glycopyrrolate_2 = document.getElementById("glycopyrrolate_2");
+            glycopyrrolate_2.textContent = " " + calvol(0.2, 2 / 1000, bw) + " "
+            let glycopyrrolate_4 = document.getElementById("glycopyrrolate_4");
+            glycopyrrolate_4.textContent = " " + calvol(0.2, 4 / 1000, bw) + " "
+            let glycopyrrolate_10 = document.getElementById("glycopyrrolate_10");
+            glycopyrrolate_10.textContent = " " + calvol(0.2, 10 / 1000, bw) + " "
+            let rocuronium_06 = document.getElementById("rocuronium_06");
+            rocuronium_06.textContent = " " + calvol(10, 0.6, bw) + " "
+            let rocuronium_12 = document.getElementById("rocuronium_12");
+            rocuronium_12.textContent = " " + calvol(10, 1.2, bw) + " "
+            let sugammadex_2 = document.getElementById("sugammadex_2");
+            sugammadex_2.textContent = " " + calvol(100, 2, bw) + " "
+            let sugammadex_4 = document.getElementById("sugammadex_4");
+            sugammadex_4.textContent = " " + calvol(100, 4, bw) + " "
+            let sugammadex_16 = document.getElementById("sugammadex_16");
+            sugammadex_16.textContent = " " + calvol(100, 16, bw) + " "
+            let Fentanyl_1 = document.getElementById("Fentanyl_1");
+            Fentanyl_1.textContent = " " + calvol(50 / 1000, 1 / 1000, bw) + " "
+            let Fentanyl_2 = document.getElementById("Fentanyl_2");
+            Fentanyl_2.textContent = " " + calvol(50 / 1000, 2 / 1000, bw) + " "
+            let Dexamethasone_015 = document.getElementById("Dexamethasone_015");
+            Dexamethasone_015.textContent = " " + calvol(4, 0.15, bw) + " "
+            let Acetamol_30 = document.getElementById("Acetamol_30");
+            Acetamol_30.textContent = " " + calvol(200, 30, bw) + " "
+            let Ketorolac_05 = document.getElementById("Ketorolac_05");
+            Ketorolac_05.textContent = " " + calvol(30, 0.5, bw) + " "
+            let Transamin_10 = document.getElementById("Transamin_10");
+            Transamin_10.textContent = " " + calvol(50, 10, bw) + " "
+            let Cefazolin_20 = document.getElementById("Cefazolin_20");
+            Cefazolin_20.textContent = " " + calvol(200, 20, bw) + " "
+            let Cefazolin_30 = document.getElementById("Cefazolin_30");
+            Cefazolin_30.textContent = " " + calvol(200, 30, bw) + " "
+            let Cefazolin_40 = document.getElementById("Cefazolin_40");
+            Cefazolin_40.textContent = " " + calvol(200, 40, bw) + " "
+            let Gentamicin_20 = document.getElementById("Gentamicin_20");
+            Gentamicin_20.textContent = " " + calvol(40, 2, bw) + " "
+            let Gentamicin_25 = document.getElementById("Gentamicin_25");
+            Gentamicin_25.textContent = " " + calvol(40, 2.5, bw) + " "
+            let rocuronium_M_01 = document.getElementById("rocuronium_M_01");
+            rocuronium_M_01.textContent = " " + calvol(10, 1 / 1000 * 60, bw) + " "
+            let rocuronium_M_02 = document.getElementById("rocuronium_M_02");
+            rocuronium_M_02.textContent = " " + calvol(10, 2 / 1000 * 60, bw) + " "
+            let rocuronium_M_04 = document.getElementById("rocuronium_M_04");
+            rocuronium_M_04.textContent = " " + calvol(10, 4 / 1000 * 60, bw) + " "
+            let rocuronium_M_08 = document.getElementById("rocuronium_M_08");
+            rocuronium_M_08.textContent = " " + calvol(10, 8 / 1000 * 60, bw) + " "
+            let rocuronium_M_12 = document.getElementById("rocuronium_M_12");
+            rocuronium_M_12.textContent = " " + calvol(10, 12 / 1000 * 60, bw) + " "
+            let rocuronium_M_16 = document.getElementById("rocuronium_M_16");
+            rocuronium_M_16.textContent = " " + calvol(10, 16 / 1000 * 60, bw) + " "
+            let Alfentanil_05 = document.getElementById("Alfentanil_05");
+            Alfentanil_05.textContent = " " + calvol(100 / 1000, 0.5 / 1000 * 60, bw) + " "
+            let Alfentanil_10 = document.getElementById("Alfentanil_10");
+            Alfentanil_10.textContent = " " + calvol(100 / 1000, 1 / 1000 * 60, bw) + " "
+            let Alfentanil_15 = document.getElementById("Alfentanil_15");
+            Alfentanil_15.textContent = " " + calvol(100 / 1000, 1.5 / 1000 * 60, bw) + " "
+            let Alfentanil_20 = document.getElementById("Alfentanil_20");
+            Alfentanil_20.textContent = " " + calvol(100 / 1000, 2 / 1000 * 60, bw) + " "
+            let Precedex_02 = document.getElementById("Precedex_02");
+            Precedex_02.textContent = " " + calvol(4 / 1000, 0.2 / 1000, bw) + " "
+            let Precedex_03 = document.getElementById("Precedex_03");
+            Precedex_03.textContent = " " + calvol(4 / 1000, 0.3 / 1000, bw) + " "
+            let Precedex_04 = document.getElementById("Precedex_04");
+            Precedex_04.textContent = " " + calvol(4 / 1000, 0.4 / 1000, bw) + " "
+            let Precedex_05 = document.getElementById("Precedex_05");
+            Precedex_05.textContent = " " + calvol(4 / 1000, 0.5 / 1000, bw) + " "
+            let Precedex_06 = document.getElementById("Precedex_06");
+            Precedex_06.textContent = " " + calvol(4 / 1000, 0.6 / 1000, bw) + " "
+            let Precedex_07 = document.getElementById("Precedex_07");
+            Precedex_07.textContent = " " + calvol(4 / 1000, 0.7 / 1000, bw) + " "
+            let Precedex_08 = document.getElementById("Precedex_08");
+            Precedex_08.textContent = " " + calvol(4 / 1000, 0.8 / 1000, bw) + " "
+            let Ondansetron_01 = document.getElementById("Ondansetron_01");
+            Ondansetron_01.textContent = " " + calvol(2, 0.1, bw) + " "
+            let Ondansetron_02 = document.getElementById("Ondansetron_02");
+            Ondansetron_02.textContent = " " + calvol(2, 0.2, bw) + " "
+            let sugammadex_E_2 = document.getElementById("sugammadex_E_2");
+            sugammadex_E_2.textContent = " " + calvol(100, 2, bw) + " "
+            let sugammadex_E_4 = document.getElementById("sugammadex_E_4");
+            sugammadex_E_4.textContent = " " + calvol(100, 4, bw) + " "
+            let sugammadex_E_16 = document.getElementById("sugammadex_E_16");
+            sugammadex_E_16.textContent = " " + calvol(100, 16, bw) + " "
+            let Acetamol_E_30 = document.getElementById("Acetamol_E_30");
+            Acetamol_E_30.textContent = " " + calvol(200, 30, bw) + " "
+        }
+        function showresult_2() {
+            let report_2 = document.getElementById("reportresult_2");
+            // 下面要先顯示報告內容
+            report_2.style = "display: block;";
+            // 口服藥物
+            let ketamine_pr = document.getElementById("kpr").value;
+            let report_2_ketamine = document.getElementById("report_2_ketamine");
+            report_2_ketamine.textContent = " " + ketamine_pr + " ";
+            let midazolam_pr = document.getElementById("mpr").value;
+            let report_2_midazolam = document.getElementById("report_2_midazolam");
+            report_2_midazolam.textContent = " " + midazolam_pr + " ";
+            let vena_pr = document.getElementById("vpr").value;
+            let report_2_vena = document.getElementById("report_2_vena");
+            report_2_vena.textContent = " " + vena_pr + " ";
+            // Induction藥物
+            let glycopyrrolate_pr = document.getElementById("glycopyrrolate_pr").value;
+            let report_2_glycopyrrolate = document.getElementById("report_2_glycopyrrolate");
+            report_2_glycopyrrolate.textContent = " " + glycopyrrolate_pr + " ";
+            let rocuronium_pr = document.getElementById("rocuronium_pr").value;
+            let report_2_rocuronium = document.getElementById("report_2_rocuronium");
+            report_2_rocuronium.textContent = " " + rocuronium_pr + " ";
+            let sugammadex_pr = document.getElementById("sugammadex_pr").value;
+            let report_2_sugammadex = document.getElementById("report_2_sugammadex");
+            report_2_sugammadex.textContent = " " + sugammadex_pr + " ";
+            let Fentanyl_pr = document.getElementById("Fentanyl_pr").value;
+            let report_2_Fentanyl = document.getElementById("report_2_Fentanyl");
+            report_2_Fentanyl.textContent = " " + Fentanyl_pr + " ";
+            // 輔助用藥
+            let Dexamethasone_pr = document.getElementById("Dexamethasone_pr").value;
+            let report_2_Dexamethasone = document.getElementById("report_2_Dexamethasone");
+            report_2_Dexamethasone.textContent = " " + Dexamethasone_pr + " ";
+            let Acetamol_pr = document.getElementById("Acetamol_pr").value;
+            let report_2_Acetamol = document.getElementById("report_2_Acetamol");
+            report_2_Acetamol.textContent = " " + Acetamol_pr + " ";
+            let Ketorolac_pr = document.getElementById("Ketorolac_pr").value;
+            let report_2_Ketorolac = document.getElementById("report_2_Ketorolac");
+            report_2_Ketorolac.textContent = " " + Ketorolac_pr + " ";
+            let Transamin_pr = document.getElementById("Transamin_pr").value;
+            let report_2_Transamin = document.getElementById("report_2_Transamin");
+            report_2_Transamin.textContent = " " + Transamin_pr + " ";
+            let Cefazolin_pr = document.getElementById("Cefazolin_pr").value;
+            let report_2_Cefazolin = document.getElementById("report_2_Cefazolin");
+            report_2_Cefazolin.textContent = " " + Cefazolin_pr + " ";
+            let Gentamicin_pr = document.getElementById("Gentamicin_pr").value;
+            let report_2_Gentamicin = document.getElementById("report_2_Gentamicin");
+            report_2_Gentamicin.textContent = " " + Gentamicin_pr + " ";
+            // Maintenance藥物
+            let rocuronium_M_pr = document.getElementById("rocuronium_M_pr").value;
+            let report_2_rocuronium_M = document.getElementById("report_2_rocuronium_M");
+            report_2_rocuronium_M.textContent = " " + rocuronium_M_pr + " ";
+            let Alfentanil_pr = document.getElementById("Alfentanil_pr").value;
+            let report_2_Alfentanil = document.getElementById("report_2_Alfentanil");
+            report_2_Alfentanil.textContent = " " + Alfentanil_pr + " ";
+            let Precedex_pr = document.getElementById("Precedex_pr").value;
+            let report_2_Precedex = document.getElementById("report_2_Precedex");
+            report_2_Precedex.textContent = " " + Precedex_pr + " ";
+            // Emergence藥物
+            let Ondansetron_pr = document.getElementById("Ondansetron_pr").value;
+            let report_2_Ondansetron = document.getElementById("report_2_Ondansetron");
+            report_2_Ondansetron.textContent = " " + Ondansetron_pr + " ";
+            let sugammadex_E_pr = document.getElementById("sugammadex_E_pr").value;
+            let report_2_sugammadex_E = document.getElementById("report_2_sugammadex_E");
+            report_2_sugammadex_E.textContent = " " + sugammadex_E_pr + " ";
+            let Acetamol_E_pr = document.getElementById("Acetamol_E_pr").value;
+            let report_2_Acetamol_E = document.getElementById("report_2_Acetamol_E");
+            report_2_Acetamol_E.textContent = " " + Acetamol_E_pr + " ";
+        }
+        function showresult_3() {
+            let input_1 = document.getElementById("input_1");
+            input_1.style = "display: none;";
+            let reportresult = document.getElementById("reportresult");
+            reportresult.style = "display: none;";
+            let button_3 = document.getElementById("button_3");
+            button_3.style = "display: none;";
+            let button_4 = document.getElementById("button_4");
+            button_4.style = "display: block;";
+            window.scrollTo(0, 0);
+        }
+        function showresult_4() {
+            let input_1 = document.getElementById("input_1");
+            input_1.style = "display: block;";
+            let reportresult = document.getElementById("reportresult");
+            reportresult.style = "display: block;";
+            let button_3 = document.getElementById("button_3");
+            button_3.style = "display: block;";
+            let button_4 = document.getElementById("button_4");
+            button_4.style = "display: none;";
+            window.scrollTo(0, 0);
+        }
+    </script>
+</head>
+
+<body>
+    <div id="input_1" style="display: block;">
+        <p class="markit">
+            小朋友的出生日期：<br />
+            <input type="date" id="birthday" value="2017-01-01" />
+        </p>
+        <p class="markit">
+            小朋友的體重：<br />
+            <input type="number" id="bodyw" value="22.6" step="0.1" min="8" max="50" />公斤 (Kg)
+        </p>
+        <p class="markit">
+            小朋友的身高：<br />
+            <input type="number" id="bodyh" value="116" step="1" min="80" max="150" />公分 (cm)
+        </p>
+        <p>
+            <button type="button" onclick="showresult()">
+                資料輸入後按此處<br />將會根據上述資料<br />給予相關建議事項<br />
+            </button>
+        </p>
+        <hr />
+    </div>
+    <div id="reportresult" style="display: none;">
+        <p class="markit asblack">
+            小朋友的年齡是<span id="age_1" class="markit asblack asunderline"></span>歲，<br />
+            體重<span id="bw" class="markit asblack asunderline"></span>Kg，
+            身高<span id="bh" class="markit asblack asunderline"></span>cm
+        </p>
+        <hr />
+        <p class="markit asblack">
+            口服藥物
+        </p>
+        <ul>
+            <li>
+                Ketamine (50 mg/mL)
+                <ul>
+                    <li>0.5 mg/Kg 的話，是<span id="k05" class="asunderline"></span>mL</li>
+                    <li>1.0 mg/Kg 的話，是<span id="k10" class="asunderline"></span>mL</li>
+                    <li>1.5 mg/Kg 的話，是<span id="k15" class="asunderline"></span>mL</li>
+                    <li class="asblue">2.0 mg/Kg 的話，是<span id="k20" class="asunderline"></span>mL</li>
+                    <li>2.5 mg/Kg 的話，是<span id="k25" class="asunderline"></span>mL</li>
+                    <li>3.0 mg/Kg 的話，是<span id="k30" class="asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Ketamine 口服<input type="number" id="kpr" value="1" step="0.1"
+                            min="0.1" max="3" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Midazolam (5 mg/mL)
+                <ul>
+                    <li>0.5 mg/Kg 的話，是<span id="m05" class="asunderline"></span>mL</li>
+                    <li class="asblue">1.0 mg/Kg 的話，是<span id="m10" class="asunderline"></span>mL</li>
+                    <li>1.5 mg/Kg 的話，是<span id="m15" class="asunderline"></span>mL</li>
+                    <li>2.0 mg/Kg 的話，是<span id="m20" class="asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Midazolam 口服<input type="number" id="mpr" value="5" step="0.1"
+                            min="0.1" max="7" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Vena
+                <ul>
+                    <li class="markit asblack">預計 Vena 口服<input type="number" id="vpr" value="0.5" step="0.1" min="0.1"
+                            max="1" />mL</li>
+                </ul>
+            </li>
+        </ul>
+        <hr />
+        <p class="markit asblack">
+            Induction 用藥
+        </p>
+        <ul>
+            <li>
+                Glycopyrrolate (Robinul®) (0.2 mg/mL)
+                <ul>
+                    <li>2 µg/Kg Q6h IV/IM 的話，是<span id="glycopyrrolate_2" class="asblue asunderline"></span>mL</li>
+                    <li>4 µg/Kg Q6h IV/IM 的話，是<span id="glycopyrrolate_4" class="asblack asunderline"></span>mL</li>
+                    <li>10 µg/Kg Q6h IV/IM 的話，是<span id="glycopyrrolate_10" class="asred asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Glycopyrrolate 準備<input type="number" id="glycopyrrolate_pr"
+                            value="0.3" step="0.1" min="0.1" max="1" />mL</li>
+                    <li>加進去那管會在前場直接推的 Propofol 裡面</li>
+                </ul>
+            </li>
+            <li>
+                Rocuronium (10 mg/mL)
+                <ul>
+                    <li>0.6 mg/Kg 的話，是<span id="rocuronium_06" class="asblue asunderline"></span>mL</li>
+                    <li>1.2 mg/Kg 的話，是<span id="rocuronium_12" class="asred asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Rocuronium 準備給予<input type="number" id="rocuronium_pr" value="2.7"
+                            step="0.1" min="0.1" max="10" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Sugammadex (Bridion®) (100 mg/ml)
+                <ul>
+                    <li>常規逆轉 2 mg/Kg 的話，是<span id="sugammadex_2" class="asblack asunderline"></span>mL</li>
+                    <li>常規逆轉 4 mg/Kg 的話，是<span id="sugammadex_4" class="asblack asunderline"></span>mL</li>
+                    <li>立即逆轉 16 mg/Kg 的話，是<span id="sugammadex_16" class="asred asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Sugammadex 緊急備用<input type="number" id="sugammadex_pr" value="3.6"
+                            step="0.1" min="0.1" max="10" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Fentanyl (50 µg/mL)
+                <ul>
+                    <li>1 µg/Kg 的話，是<span id="Fentanyl_1" class="asblue asunderline"></span>mL</li>
+                    <li>2 µg/Kg 的話，是<span id="Fentanyl_2" class="asred asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Fentanyl 準備給予<input type="number" id="Fentanyl_pr" value="0.4"
+                            step="0.1" min="0.1" max="10" />mL</li>
+                </ul>
+            </li>
+        </ul>
+        <hr />
+        <p class="markit asblack">
+            輔助用藥
+        </p>
+        <ul>
+            <li>
+                Dexamethasone (4 mg/mL)
+                <ul>
+                    <li>0.15 mg/Kg 的話，是<span id="Dexamethasone_015" class="asblack asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Dexamethasone 準備給予<input type="number" id="Dexamethasone_pr"
+                            value="0.8" step="0.1" min="0.1" max="1" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Acetamol®<br />(包裝含 Propacetamol 1000 mg/amp<br />與 專用溶劑 Sodium citrate 100 mg/ 5ml/ amp)
+                <ul>
+                    <li>與專用溶液混合均勻之後，會得到 Acetamol® (Propacetamol 200 mg/mL)</li>
+                    <li>而 Acetamol® (Propacetamol 200 mg/mL) 這相當於 Paracetamol 100 mg/mL</li>
+                    <li>30 mg/Kg Q6H slow IV push 的話，是<span id="Acetamol_30" class="asblue asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Acetamol® 準備給予<input type="number" id="Acetamol_pr" value="3.5"
+                            step="0.1" min="0.1" max="5" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Ketorolac (30 mg/mL)
+                <ul>
+                    <li>0.5 mg/Kg Q6H IV/IM 的話，是<span id="Ketorolac_05" class="asblack asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Ketorolac 準備給予<input type="number" id="Ketorolac_pr" value="0.4"
+                            step="0.1" min="0.1" max="1" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Transamin (50 mg/mL) (250 mg/ 5 mL/ amp)
+                <ul>
+                    <li>10 mg/Kg slow IV 再 Q6-8H PRN 的話，是<span id="Transamin_10" class="asblack asunderline"></span>mL
+                    </li>
+                    <li class="markit asblack">預計 Transamin 準備給予<input type="number" id="Transamin_pr" value="4.5"
+                            step="0.1" min="0.1" max="10" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Cefazolin (1000 mg/vial 乾粉)<br />(假設用 5mL N/S溶解，則濃度為 200 mg/mL)
+                <ul>
+                    <li>20 mg/Kg Q6H IV 的話，是<span id="Cefazolin_20" class="asblack asunderline"></span>mL</li>
+                    <li>30 mg/Kg Q6H IV 的話，是<span id="Cefazolin_30" class="asblue asunderline"></span>mL</li>
+                    <li>40 mg/Kg Q6H IV 的話，是<span id="Cefazolin_40" class="asblack asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Cefazolin 準備給予<input type="number" id="Cefazolin_pr" value="3.5"
+                            step="0.1" min="0.1" max="10" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Gentamicin (40 mg/mL)
+                <ul>
+                    <li>2 mg/Kg Q8H IV 的話，是<span id="Gentamicin_20" class="asblue asunderline"></span>mL</li>
+                    <li>2.5 mg/Kg Q8H IV 的話，是<span id="Gentamicin_25" class="asred asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Gentamicin 準備給予<input type="number" id="Gentamicin_pr" value="1"
+                            step="0.1" min="0.1" max="2" />mL</li>
+                </ul>
+            </li>
+        </ul>
+        <hr />
+        <p class="markit asblack">
+            Maintenance 用藥
+        </p>
+        <ul>
+            <li>
+                Rocuronium (10 mg/mL)
+                <ul>
+                    <li>1 µg/Kg/min 的話，是<span id="rocuronium_M_01" class="asblack asunderline"></span>mL</li>
+                    <li>2 µg/Kg/min 的話，是<span id="rocuronium_M_02" class="asblack asunderline"></span>mL</li>
+                    <li>4 µg/Kg/min 的話，是<span id="rocuronium_M_04" class="asblue asunderline"></span>mL</li>
+                    <li>8 µg/Kg/min 的話，是<span id="rocuronium_M_08" class="asblack asunderline"></span>mL</li>
+                    <li>12 µg/Kg/min 的話，是<span id="rocuronium_M_12" class="asblack asunderline"></span>mL</li>
+                    <li>16 µg/Kg/min 的話，是<span id="rocuronium_M_16" class="asred asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Rocuronium 設為<input type="number" id="rocuronium_M_pr" value="2.2"
+                            step="0.1" min="0.1" max="10" />mL/hr</li>
+                </ul>
+            </li>
+            <li>
+                Alfentanil (原汁為 500 µg/mL 稀釋為 100 µg/mL)<br />(每支 2mL 稀釋成 10mL)
+                <ul>
+                    <li>0.5 µg/Kg/min 的話，是<span id="Alfentanil_05" class="asblack asunderline"></span>mL/hr</li>
+                    <li>1.0 µg/Kg/min 的話，是<span id="Alfentanil_10" class="asblack asunderline"></span>mL/hr</li>
+                    <li>1.5 µg/Kg/min 的話，是<span id="Alfentanil_15" class="asblue asunderline"></span>mL/hr</li>
+                    <li>2.0 µg/Kg/min 的話，是<span id="Alfentanil_20" class="asblack asunderline"></span>mL/hr</li>
+                    <li class="markit asblack">預計 Alfentanil 下刀前考慮設為<input type="number" id="Alfentanil_pr" value="18"
+                            step="0.1" min="0.1" max="50" />mL/hr</li>
+                </ul>
+            </li>
+            <li>
+                Precedex® (Dexmedetomidine)<br />(原汁為 100 µg/mL 稀釋為 4 µg/mL)
+                <ul>
+                    <li>0.2 µg/Kg/hr 的話，是<span id="Precedex_02" class="asblack asunderline"></span>mL/hr</li>
+                    <li>0.3 µg/Kg/hr 的話，是<span id="Precedex_03" class="asblack asunderline"></span>mL/hr</li>
+                    <li>0.4 µg/Kg/hr 的話，是<span id="Precedex_04" class="asblue asunderline"></span>mL/hr</li>
+                    <li>0.5 µg/Kg/hr 的話，是<span id="Precedex_05" class="asblack asunderline"></span>mL/hr</li>
+                    <li>0.6 µg/Kg/hr 的話，是<span id="Precedex_06" class="asblack asunderline"></span>mL/hr</li>
+                    <li>0.7 µg/Kg/hr 的話，是<span id="Precedex_07" class="asblack asunderline"></span>mL/hr</li>
+                    <li>0.8 µg/Kg/hr 的話，是<span id="Precedex_08" class="asblack asunderline"></span>mL/hr</li>
+                    <li class="markit asblack">預計 Precedex 下刀前考慮設為<input type="number" id="Precedex_pr" value="3.4"
+                            step="0.1" min="0.1" max="50" />mL/hr</li>
+                </ul>
+            </li>
+        </ul>
+        <hr />
+        <p class="markit asblack">
+            Emergence 用藥
+        </p>
+        <ul>
+            <li>
+                Ondansetron (Zofran®) (2mg/mL)
+                <ul>
+                    <li>0.1 mg/Kg IV 的話，是<span id="Ondansetron_01" class="asblack asunderline"></span>mL</li>
+                    <li>0.2 mg/Kg IV 的話，是<span id="Ondansetron_02" class="asblack asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Ondansetron 準備給予<input type="number" id="Ondansetron_pr" value="1.5"
+                            step="0.1" min="0.1" max="4" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Sugammadex (Bridion®) (100 mg/ml)
+                <ul>
+                    <li>常規逆轉 2 mg/Kg 的話，是<span id="sugammadex_E_2" class="asblack asunderline"></span>mL</li>
+                    <li>常規逆轉 4 mg/Kg 的話，是<span id="sugammadex_E_4" class="asblack asunderline"></span>mL</li>
+                    <li>立即逆轉 16 mg/Kg 的話，是<span id="sugammadex_E_16" class="asred asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Sugammadex 準備給予<input type="number" id="sugammadex_E_pr" value="1"
+                            step="0.1" min="0.1" max="10" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Acetamol®<br />(包裝含 Propacetamol 1000 mg/amp<br />與 專用溶劑 Sodium citrate 100 mg/ 5ml/ amp)
+                <ul>
+                    <li>與專用溶液混合均勻之後，會得到 Acetamol® (Propacetamol 200 mg/mL)</li>
+                    <li>而 Acetamol® (Propacetamol 200 mg/mL) 這相當於 Paracetamol 100 mg/mL</li>
+                    <li>30 mg/Kg Q6H slow IV push 的話，是<span id="Acetamol_E_30" class="asblue asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Acetamol® 準備給予<input type="number" id="Acetamol_E_pr" value="3.5"
+                            step="0.1" min="0.1" max="5" />mL</li>
+                </ul>
+            </li>
+        </ul>
+        <p>
+            <button type="button" onclick="showresult_2()">
+                預計的用量輸入後<br />按此處會進行統整<br />整理相關準備事項<br />
+            </button>
+        </p>
+        <hr />
+    </div>
+    <div id="reportresult_2" style="display: none;">
+        <p class="markit asblack">
+            小朋友的年齡是<span id="age_2" class="markit asblack asunderline"></span>歲，<br />
+            體重<span id="bw_2" class="markit asblack asunderline"></span>Kg，
+            身高<span id="bh_2" class="markit asblack asunderline"></span>cm
+        </p>
+        <hr />
+        <p class="markit asblack">口服藥物請準備：</p>
+        <ul>
+            <li>Ketamine<span id="report_2_ketamine" class="markit asblack asunderline"></span>mL</li>
+            <li>Midazolam<span id="report_2_midazolam" class="markit asblack asunderline"></span>mL</li>
+            <li>Vena<span id="report_2_vena" class="markit asblack asunderline"></span>mL</li>
+            <li>養樂多</li>
+        </ul>
+        <p class="markit asblack">Induction 藥物請準備：</p>
+        <ul>
+            <li>Glycopyrrolate (Robinul®)<span id="report_2_glycopyrrolate"
+                    class="markit asblack asunderline"></span>mL<br />(加進去那管會在前場直接推的 Propofol 裡面)</li>
+            <li>Rocuronium<span id="report_2_rocuronium" class="markit asblack asunderline"></span>mL<br />(務必先確認 mask
+                ventilation 可行)</li>
+            <li>Sugammadex<span id="report_2_sugammadex" class="markit asblack asunderline"></span>mL<br />(先不抽但緊急時要有)
+            </li>
+            <li>Fentanyl<span id="report_2_Fentanyl" class="markit asblack asunderline"></span>mL<br />(看情況給予)</li>
+        </ul>
+        <p class="markit asblack">輔助用藥請準備：</p>
+        <ul>
+            <li>Dexamethasone<span id="report_2_Dexamethasone" class="markit asblack asunderline"></span>mL (放 bag 裡面)
+            </li>
+            <li>Acetamol<span id="report_2_Acetamol" class="markit asblack asunderline"></span>mL (slow IV
+                push)<br />(已混合專用溶劑 Sodium citrate 5ml)</li>
+            <li>Ketorolac<span id="report_2_Ketorolac" class="markit asblack asunderline"></span>mL (IV push)</li>
+            <li>Transamin<span id="report_2_Transamin" class="markit asblack asunderline"></span>mL (放 bag
+                裡面)<br />(再視情況 Q6-8H PRN)</li>
+            <li>Cefazolin<span id="report_2_Cefazolin" class="markit asblack asunderline"></span>mL (放 bag 裡面 Q6H
+                給予)<br />(濃度是假設以 5mL 的 N/S 或 D5S 溶解 1g 乾粉計算)</li>
+            <li>Gentamicin<span id="report_2_Gentamicin" class="markit asblack asunderline"></span>mL (放 bag 裡面 Q8H 給予)
+            </li>
+        </ul>
+        <p class="markit asblack">Maintenance 用藥請設定：</p>
+        <ul>
+            <li>Rocuronium<span id="report_2_rocuronium_M"
+                    class="markit asblack asunderline"></span>mL/hr<br />(隨時視情況調整)</li>
+            <li>Alfentanil<span id="report_2_Alfentanil" class="markit asblack asunderline"></span>mL/hr<br />(因為很貴，要搭配
+                Fentanyl IV Bolus 儘快減少用量)</li>
+            <li>Precedex<span id="report_2_Precedex" class="markit asblack asunderline"></span>mL/hr<br />(隨時視情況調整，請密切注意
+                heart rate)</li>
+        </ul>
+        <p class="markit asblack">Emergence 藥物請準備：</p>
+        <ul>
+            <li>Ondansetron (Zofran®)<span id="report_2_Ondansetron"
+                    class="markit asblack asunderline"></span>mL<br />(注意不同廠牌的藥物濃度是否相同)</li>
+            <li>Sugammadex<span id="report_2_sugammadex_E"
+                    class="markit asblack asunderline"></span>mL<br />(洗好頭之後，準備拔管前再給)</li>
+            <li>Acetamol<span id="report_2_Acetamol_E" class="markit asblack asunderline"></span>mL (slow IV
+                push)<br />(已混合專用溶劑 Sodium citrate 5ml)</li>
+        </ul>
+        <p>
+            <button type="button" onclick="showresult_3()" id="button_3" style="display: block;">
+                上述建議經確認後<br />按此處轉單一頁面<br />可列印成檢查清單<br />
+            </button>
+            <button type="button" onclick="showresult_4()" id="button_4" style="display: none;">
+                按此處<br />回前頁
+            </button>
+        </p>
+    </div>
+</body>
+
+</html>
