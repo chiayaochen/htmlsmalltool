@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5引入了一種讓網頁設計師通過標籤控制用戶的 viewport (可見區域)的方法。viewport 隨著設備的不同而變化，而且在手機上比在電腦屏幕上更小。 -->
+    <title>文字附加符號小工具</title>
+    <!-- 這邊設定CSS樣式 -->
+    <style>
+        * {
+            font-family: sans-serif;
+        }
+
+        body {
+            background-image: linear-gradient(180deg, #FFFFFF, #81d8d0);
+        }
+
+        div {
+            font-weight: normal;
+            font-size: medium;
+            text-align: left;
+        }
+
+        input {
+            font-weight: normal;
+            font-size: medium;
+            text-align: left;
+        }
+    </style>
+    <script>
+        function apply_type() {
+            let div_text_input = document.getElementById("div_text_input");
+            let text_input = document.getElementById("text_input");
+            let div_select_option = document.getElementById("div_select_option");
+            let bttn_apply = document.getElementById("apply_type");
+            let bttn_change = document.getElementById("change_type");
+            let bttn_copy = document.getElementById("copy_text");
+            let div_text_output = document.getElementById("div_text_output");
+            let text_output = document.getElementById("text_output");
+            div_text_input.style = "display: none;";
+            div_select_option.style = "display: none;";
+            bttn_apply.style = "display: none;";
+            // 
+            // 
+            // 
+            let type_single_dot = document.getElementById("type_single_dot");
+            let type_single_underline = document.getElementById("type_single_underline");
+            let type_single_circumflex = document.getElementById("type_single_circumflex");
+            let type_single_tilde = document.getElementById("type_single_tilde");
+            let type_double_dot = document.getElementById("type_doulble_dot");
+            let type_triple_dot = document.getElementById("type_triple_dot");
+            //
+            // 
+            //  
+            let secrettext = "";
+            if (type_single_dot.checked) {
+                secrettext += "\u0323";
+            }
+            if (type_single_underline.checked) {
+                secrettext += "\u0331";
+            }
+            if (type_single_circumflex.checked) {
+                secrettext += "\u032D";
+            }
+            if (type_single_tilde.checked) {
+                secrettext += "\u0330";
+            }
+            if (type_double_dot.checked) {
+                secrettext += "\u0323\u0323";
+            }
+            if (type_triple_dot.checked) {
+                secrettext += "\u0323\u0323\u0323";
+            }
+            // 
+            // 
+            // 
+            let text_original = text_input.value + "";
+            let text_result = ""
+            for (let i of text_original) {
+                if (i == "\n") {
+                    text_result = text_result + i;
+                } else {
+                    text_result = text_result + i + secrettext;
+                }
+            }
+            text_output.value = "";
+            text_output.value = text_result;
+            // 
+            // 
+            // 
+            bttn_change.style = "display: block;";
+            bttn_copy.style = "display: block;";
+            div_text_output.style = "display: block;";
+        }
+        function change_type() {
+            let div_text_input = document.getElementById("div_text_input");
+            let div_select_option = document.getElementById("div_select_option");
+            let bttn_apply = document.getElementById("apply_type");
+            let bttn_change = document.getElementById("change_type");
+            let bttn_copy = document.getElementById("copy_text");
+            let div_text_output = document.getElementById("div_text_output");
+            div_text_input.style = "display: block;";
+            div_select_option.style = "display: block;";
+            bttn_apply.style = "display: block;";
+            bttn_change.style = "display: none;";
+            bttn_copy.style = "display: none;";
+            div_text_output.style = "display: none;";
+        }
+        function copy_text() {
+            let text_output = document.getElementById("text_output");
+            navigator.clipboard.writeText(text_output.value);
+        }
+    </script>
+</head>
+
+<body>
+    <div id="div_text_input" style="width:100vmin; display: block;">
+        請輸入要轉換的文字：<br />
+        <textarea id="text_input" style="width:90vmin; height: 60vmin; align-items: center;"
+            autofocus="autofocus"></textarea>
+    </div>
+    <div id="div_select_option" style="display: block;">
+        請選擇字符形式：<br />
+        <label><input type="radio" name="select_type" id="type_single_dot" checked="checked" />單個底點<br /></label>
+        <label><input type="radio" name="select_type" id="type_single_underline" />單個底線<br /></label>
+        <label><input type="radio" name="select_type" id="type_single_circumflex" />單個揚抑符<br /></label>
+        <label><input type="radio" name="select_type" id="type_single_tilde" />單個波浪號<br /></label>
+        <label><input type="radio" name="select_type" id="type_doulble_dot" />雙層底點<br /></label>
+        <label><input type="radio" name="select_type" id="type_triple_dot" />三層底點<br /></label>
+        <hr />
+    </div>
+    <div id="div_select_setting" style="display: block;">
+        <button type="button" onclick="apply_type()" id="apply_type" style="display: block;">我選好了</button>
+        <button type="button" onclick="change_type()" id="change_type" style="display: none;">回到上個步驟</button>
+        <button type="button" onclick="copy_text()" id="copy_text" style="display: none;">複製到剪貼簿</button>
+        <hr />
+    </div>
+    <div id="div_text_output" style="width:100vmin; display: none;">
+        <textarea id="text_output" style="width:90vmin; height: 60vmin; align-items: center;"></textarea>
+    </div>
+</body>
+
+</html>
