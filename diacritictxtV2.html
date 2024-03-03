@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5引入了一種讓網頁設計師通過標籤控制用戶的 viewport (可見區域)的方法。viewport 隨著設備的不同而變化，而且在手機上比在電腦屏幕上更小。 -->
+    <title>文字附加符號小工具</title>
+    <!-- 這邊設定CSS樣式 -->
+    <style>
+        * {
+            font-family: sans-serif;
+        }
+
+        body {
+            background-image: linear-gradient(180deg, #FFFFFF, #81d8d0);
+        }
+
+        div {
+            font-weight: normal;
+            font-size: medium;
+            text-align: left;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        input {
+            font-weight: normal;
+            font-size: medium;
+            text-align: left;
+        }
+
+        button {
+            width: 12em;
+            height: 4em;
+        }
+    </style>
+    <script>
+        function throw_random_char() {
+            const char_number = [768, 769, 770, 771, 772, 774, 775, 776, 777, 778, 779, 780, 783, 785, 795, 803, 804, 805, 806, 807, 808, 813, 814, 816, 817, 824, 832, 833, 836, 847];
+            let randomNumber = Math.random();
+            let randomIndex = Math.floor(randomNumber * char_number.length);
+            let randomElement = char_number[randomIndex];
+            return String.fromCodePoint(randomElement);
+        }
+        // 
+        // 
+        // 
+        function change_num() {
+            let input_num_min = document.getElementById("num_min");
+            let input_num_max = document.getElementById("num_max");
+            let text_num_min = document.getElementById("text_num_min");
+            let text_num_max = document.getElementById("text_num_max");
+            text_num_min.textContent = (parseInt(input_num_min.value)).toString();
+            text_num_max.textContent = (parseInt(input_num_min.value) + parseInt(input_num_max.value)).toString();
+        }
+        // 
+        // 
+        // 
+        function from_text() {
+            let from_text = document.getElementById("from_text");
+            let text_input = document.getElementById("text_input");
+            navigator.clipboard
+                .readText()
+                .then((txt) => { text_input.value = (txt) });
+        }
+        function apply_type() {
+            let div_text_input = document.getElementById("div_text_input");
+            let text_input = document.getElementById("text_input");
+            let div_select_option = document.getElementById("div_select_option");
+            let input_num_min = document.getElementById("num_min");
+            let input_num_max = document.getElementById("num_max");
+            let bttn_from = document.getElementById("from_text");
+            let bttn_apply = document.getElementById("apply_type");
+            let bttn_change = document.getElementById("change_type");
+            let bttn_copy = document.getElementById("copy_text");
+            let div_text_output = document.getElementById("div_text_output");
+            let text_output = document.getElementById("text_output");
+            div_text_input.style = "display: none;";
+            div_select_option.style = "display: none;";
+            bttn_from.style = "display: none;";
+            bttn_apply.style = "display: none;";
+            //
+            // 
+            //
+            let text_original = text_input.value + "";
+            let text_result = ""
+            for (let i of text_original) {
+                if (i == "\n") {
+                    text_result = text_result + i;
+                } else {
+                    text_result = text_result + i;
+                    for (let j = 0; j < input_num_min.value; j++) {
+                        text_result = text_result + throw_random_char();
+                    }
+                    let randomQuantity = Math.floor((Math.random()) * (input_num_max.value));
+                    if (randomQuantity > 0) {
+                        for (let k = 0; k < randomQuantity; k++) {
+                            text_result = text_result + throw_random_char();
+                        }
+                    }
+                }
+            }
+            text_output.value = "";
+            text_output.value = text_result;
+            // 
+            // 
+            // 
+            bttn_change.style = "display: inline";
+            bttn_copy.style = "display: inline;";
+            div_text_output.style = "display: block;";
+        }
+        function change_type() {
+            let div_text_input = document.getElementById("div_text_input");
+            let div_select_option = document.getElementById("div_select_option");
+            let input_num_min = document.getElementById("num_min");
+            let input_num_max = document.getElementById("num_max");
+            let bttn_from = document.getElementById("from_text");
+            let bttn_apply = document.getElementById("apply_type");
+            let bttn_change = document.getElementById("change_type");
+            let bttn_copy = document.getElementById("copy_text");
+            let div_text_output = document.getElementById("div_text_output");
+            div_text_input.style = "display: block;";
+            div_select_option.style = "display: block;";
+            bttn_from.style = "display: inline;";
+            bttn_apply.style = "display: inline;";
+            bttn_change.style = "display: none;";
+            bttn_copy.style = "display: none;";
+            div_text_output.style = "display: none;";
+        }
+        function copy_text() {
+            let text_output = document.getElementById("text_output");
+            navigator.clipboard.writeText(text_output.value);
+        }
+    </script>
+</head>
+
+<body>
+    <div id="div_text_input" style="width:100vmin; display: block;">
+        請輸入要轉換的文字：<br />
+        <textarea id="text_input" style="width:90vmin; height: 60vmin; align-items: center;"></textarea>
+    </div>
+    <div id="div_text_output" style="width:100vmin; display: none;">
+        轉換之後的文字：<br />
+        <textarea id="text_output" style="width:90vmin; height: 60vmin; align-items: center;"></textarea>
+    </div>
+    <div id="div_select_option" style="display: block;">
+        請選擇字符數量：<br />
+        <table style="border: 0px; padding: 0px; margin-left: 0px;">
+            <tr style="height: 2em;">
+                <td>最小數量：</td>
+                <td id="text_num_min" style="width: 1em; text-align: right;">3</td>
+                <td><input type="range" id="num_min" value="3" min="1" max="20" onchange="change_num()"
+                        style="width: 60vmin;" /></td>
+            </tr>
+            <tr style="height: 2em;">
+                <td>最大數量：</td>
+                <td id="text_num_max" style="width: 1em; text-align: right;">3</td>
+                <td><input type="range" id="num_max" value="0" min="0" max="20" onchange="change_num()"
+                        style="width: 60vmin;" /></td>
+            </tr>
+        </table>
+        <hr />
+    </div>
+    <div id="div_select_setting" style="display: block;">
+        <button type="button" onclick="from_text()" id="from_text" style="display: inline;">從剪貼簿複製</button>
+        <button type="button" onclick="apply_type()" id="apply_type" style="display: inline;">我設定完成了</button>
+        <button type="button" onclick="change_type()" id="change_type" style="display: none;">回到上個步驟</button>
+        <button type="button" onclick="copy_text()" id="copy_text" style="display: none;">複製到剪貼簿</button>
+        <hr />
+    </div>
+</body>
+
+</html>
