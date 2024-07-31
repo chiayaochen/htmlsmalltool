@@ -115,7 +115,7 @@
             oscillator.connect(audioCtx.destination);
             for (let s = 0; s < sec; s++) {
                 oscillator.start(1); // 意即一秒鐘後才發出聲音
-                oscillator.stop();
+                oscillator.stop(0.5);
             }
             audioCtx.close();
         }
