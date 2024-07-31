@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5引入了一種讓網頁設計師通過標籤控制用戶的 viewport (可見區域)的方法。viewport 隨著設備的不同而變化，而且在手機上比在電腦屏幕上更小。 -->
+    <title>基本功口令</title>
+    <!-- 這邊設定CSS樣式 -->
+    <style>
+        /* 這邊是填寫要設定的CSS樣式 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;400;900&display=swap');
+
+        * {
+            font-family: 'Noto Serif TC', serif, sans-serif;
+            font-weight: 200;
+            font-size: medium;
+        }
+
+        .markit {
+            font-weight: 900;
+            font-size: large;
+        }
+
+        .asblack {
+            color: black;
+        }
+
+        .asblue {
+            color: blue;
+        }
+
+        .asred {
+            color: red;
+        }
+
+        .asunderline {
+            text-decoration: underline;
+        }
+
+        body {
+            background-image: linear-gradient(180deg, #FFFFFF, #81d8d0);
+        }
+
+        ul {
+            margin-left: 1.2em;
+            padding-left: 0;
+        }
+
+        input {
+            font-weight: 900;
+            font-size: large;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function start(){
+            
+        }
+    </script>
+</head>
+
+<body>
+    <div id="input_1" style="display: block;">
+        <p class="markit">
+            小朋友的出生日期：<br />
+            <input type="date" id="birthday" value="2017-01-01" />
+        </p>
+        <p class="markit">
+            小朋友的體重：<br />
+            <input type="number" id="bodyw" value="22.6" step="0.1" min="8" max="50" />公斤 (Kg)
+        </p>
+        <p class="markit">
+            小朋友的身高：<br />
+            <input type="number" id="bodyh" value="116" step="1" min="80" max="150" />公分 (cm)
+        </p>
+        <p>
+            <button type="button" onclick="showresult()">
+                資料輸入後按此處<br />將會根據上述資料<br />給予相關建議事項<br />
+            </button>
+        </p>
+        <hr />
+    </div>
+    <div id="reportresult" style="display: none;">
+        <p class="markit asblack">
+            小朋友的年齡是<span id="age_1" class="markit asblack asunderline"></span>歲，<br />
+            體重<span id="bw" class="markit asblack asunderline"></span>Kg，
+            身高<span id="bh" class="markit asblack asunderline"></span>cm
+        </p>
+        <hr />
+        <p class="markit asblack">
+            口服藥物
+        </p>
+        <ul>
+            <li>
+                Ketamine (50 mg/mL)
+                <ul>
+                    <li>0.5 mg/Kg 的話，是<span id="k05" class="asunderline"></span>mL</li>
+                    <li>1.0 mg/Kg 的話，是<span id="k10" class="asunderline"></span>mL</li>
+                    <li>1.5 mg/Kg 的話，是<span id="k15" class="asunderline"></span>mL</li>
+                    <li class="asblue">2.0 mg/Kg 的話，是<span id="k20" class="asunderline"></span>mL</li>
+                    <li>2.5 mg/Kg 的話，是<span id="k25" class="asunderline"></span>mL</li>
+                    <li>3.0 mg/Kg 的話，是<span id="k30" class="asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Ketamine 口服<input type="number" id="kpr" value="1" step="0.1"
+                            min="0.1" max="3" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Midazolam (5 mg/mL)
+                <ul>
+                    <li>0.5 mg/Kg 的話，是<span id="m05" class="asunderline"></span>mL</li>
+                    <li class="asblue">1.0 mg/Kg 的話，是<span id="m10" class="asunderline"></span>mL</li>
+                    <li>1.5 mg/Kg 的話，是<span id="m15" class="asunderline"></span>mL</li>
+                    <li>2.0 mg/Kg 的話，是<span id="m20" class="asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Midazolam 口服<input type="number" id="mpr" value="5" step="0.1"
+                            min="0.1" max="7" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Vena
+                <ul>
+                    <li class="markit asblack">預計 Vena 口服<input type="number" id="vpr" value="0.5" step="0.1" min="0.1"
+                            max="1" />mL</li>
+                </ul>
+            </li>
+        </ul>
+        <hr />
+        <p class="markit asblack">
+            Induction 用藥
+        </p>
+        <ul>
+            <li>
+                Glycopyrrolate (Robinul®) (0.2 mg/mL)
+                <ul>
+                    <li>2 µg/Kg Q6h IV/IM 的話，是<span id="glycopyrrolate_2" class="asblue asunderline"></span>mL</li>
+                    <li>4 µg/Kg Q6h IV/IM 的話，是<span id="glycopyrrolate_4" class="asblack asunderline"></span>mL</li>
+                    <li>10 µg/Kg Q6h IV/IM 的話，是<span id="glycopyrrolate_10" class="asred asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Glycopyrrolate 準備<input type="number" id="glycopyrrolate_pr"
+                            value="0.3" step="0.1" min="0.1" max="1" />mL</li>
+                    <li>加進去那管會在前場直接推的 Propofol 裡面</li>
+                </ul>
+            </li>
+            <li>
+                Rocuronium (10 mg/mL)
+                <ul>
+                    <li>0.6 mg/Kg 的話，是<span id="rocuronium_06" class="asblue asunderline"></span>mL</li>
+                    <li>1.2 mg/Kg 的話，是<span id="rocuronium_12" class="asred asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Rocuronium 準備給予<input type="number" id="rocuronium_pr" value="2.7"
+                            step="0.1" min="0.1" max="10" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Sugammadex (Bridion®) (100 mg/ml)
+                <ul>
+                    <li>常規逆轉 2 mg/Kg 的話，是<span id="sugammadex_2" class="asblack asunderline"></span>mL</li>
+                    <li>常規逆轉 4 mg/Kg 的話，是<span id="sugammadex_4" class="asblack asunderline"></span>mL</li>
+                    <li>立即逆轉 16 mg/Kg 的話，是<span id="sugammadex_16" class="asred asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Sugammadex 緊急備用<input type="number" id="sugammadex_pr" value="3.6"
+                            step="0.1" min="0.1" max="10" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Fentanyl (50 µg/mL)
+                <ul>
+                    <li>1 µg/Kg 的話，是<span id="Fentanyl_1" class="asblue asunderline"></span>mL</li>
+                    <li>2 µg/Kg 的話，是<span id="Fentanyl_2" class="asred asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Fentanyl 準備給予<input type="number" id="Fentanyl_pr" value="0.4"
+                            step="0.1" min="0.1" max="10" />mL</li>
+                </ul>
+            </li>
+        </ul>
+        <hr />
+        <p class="markit asblack">
+            輔助用藥
+        </p>
+        <ul>
+            <li>
+                Dexamethasone (4 mg/mL)
+                <ul>
+                    <li>0.15 mg/Kg 的話，是<span id="Dexamethasone_015" class="asblack asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Dexamethasone 準備給予<input type="number" id="Dexamethasone_pr"
+                            value="0.8" step="0.1" min="0.1" max="1" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Acetamol®<br />(包裝含 Propacetamol 1000 mg/amp<br />與 專用溶劑 Sodium citrate 100 mg/ 5ml/ amp)
+                <ul>
+                    <li>與專用溶液混合均勻之後，會得到 Acetamol® (Propacetamol 200 mg/mL)</li>
+                    <li>而 Acetamol® (Propacetamol 200 mg/mL) 這相當於 Paracetamol 100 mg/mL</li>
+                    <li>30 mg/Kg Q6H slow IV push 的話，是<span id="Acetamol_30" class="asblue asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Acetamol® 準備給予<input type="number" id="Acetamol_pr" value="3.5"
+                            step="0.1" min="0.1" max="5" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Ketorolac (30 mg/mL)
+                <ul>
+                    <li>0.5 mg/Kg Q6H IV/IM 的話，是<span id="Ketorolac_05" class="asblack asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Ketorolac 準備給予<input type="number" id="Ketorolac_pr" value="0.4"
+                            step="0.1" min="0.1" max="1" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Transamin (50 mg/mL) (250 mg/ 5 mL/ amp)
+                <ul>
+                    <li>10 mg/Kg slow IV 再 Q6-8H PRN 的話，是<span id="Transamin_10" class="asblack asunderline"></span>mL
+                    </li>
+                    <li class="markit asblack">預計 Transamin 準備給予<input type="number" id="Transamin_pr" value="4.5"
+                            step="0.1" min="0.1" max="10" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Cefazolin (1000 mg/vial 乾粉)<br />(假設用 5mL N/S溶解，則濃度為 200 mg/mL)
+                <ul>
+                    <li>20 mg/Kg Q6H IV 的話，是<span id="Cefazolin_20" class="asblack asunderline"></span>mL</li>
+                    <li>30 mg/Kg Q6H IV 的話，是<span id="Cefazolin_30" class="asblue asunderline"></span>mL</li>
+                    <li>40 mg/Kg Q6H IV 的話，是<span id="Cefazolin_40" class="asblack asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Cefazolin 準備給予<input type="number" id="Cefazolin_pr" value="3.5"
+                            step="0.1" min="0.1" max="10" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Gentamicin (40 mg/mL)
+                <ul>
+                    <li>2 mg/Kg Q8H IV 的話，是<span id="Gentamicin_20" class="asblue asunderline"></span>mL</li>
+                    <li>2.5 mg/Kg Q8H IV 的話，是<span id="Gentamicin_25" class="asred asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Gentamicin 準備給予<input type="number" id="Gentamicin_pr" value="1"
+                            step="0.1" min="0.1" max="2" />mL</li>
+                </ul>
+            </li>
+        </ul>
+        <hr />
+        <p class="markit asblack">
+            Maintenance 用藥
+        </p>
+        <ul>
+            <li>
+                Rocuronium (10 mg/mL)
+                <ul>
+                    <li>1 µg/Kg/min 的話，是<span id="rocuronium_M_01" class="asblack asunderline"></span>mL</li>
+                    <li>2 µg/Kg/min 的話，是<span id="rocuronium_M_02" class="asblack asunderline"></span>mL</li>
+                    <li>4 µg/Kg/min 的話，是<span id="rocuronium_M_04" class="asblue asunderline"></span>mL</li>
+                    <li>8 µg/Kg/min 的話，是<span id="rocuronium_M_08" class="asblack asunderline"></span>mL</li>
+                    <li>12 µg/Kg/min 的話，是<span id="rocuronium_M_12" class="asblack asunderline"></span>mL</li>
+                    <li>16 µg/Kg/min 的話，是<span id="rocuronium_M_16" class="asred asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Rocuronium 設為<input type="number" id="rocuronium_M_pr" value="2.2"
+                            step="0.1" min="0.1" max="10" />mL/hr</li>
+                </ul>
+            </li>
+            <li>
+                Alfentanil (原汁為 500 µg/mL 稀釋為 100 µg/mL)<br />(每支 2mL 稀釋成 10mL)
+                <ul>
+                    <li>0.5 µg/Kg/min 的話，是<span id="Alfentanil_05" class="asblack asunderline"></span>mL/hr</li>
+                    <li>1.0 µg/Kg/min 的話，是<span id="Alfentanil_10" class="asblack asunderline"></span>mL/hr</li>
+                    <li>1.5 µg/Kg/min 的話，是<span id="Alfentanil_15" class="asblue asunderline"></span>mL/hr</li>
+                    <li>2.0 µg/Kg/min 的話，是<span id="Alfentanil_20" class="asblack asunderline"></span>mL/hr</li>
+                    <li class="markit asblack">預計 Alfentanil 下刀前考慮設為<input type="number" id="Alfentanil_pr" value="18"
+                            step="0.1" min="0.1" max="50" />mL/hr</li>
+                </ul>
+            </li>
+            <li>
+                Precedex® (Dexmedetomidine)<br />(原汁為 100 µg/mL 稀釋為 4 µg/mL)
+                <ul>
+                    <li>0.2 µg/Kg/hr 的話，是<span id="Precedex_02" class="asblack asunderline"></span>mL/hr</li>
+                    <li>0.3 µg/Kg/hr 的話，是<span id="Precedex_03" class="asblack asunderline"></span>mL/hr</li>
+                    <li>0.4 µg/Kg/hr 的話，是<span id="Precedex_04" class="asblue asunderline"></span>mL/hr</li>
+                    <li>0.5 µg/Kg/hr 的話，是<span id="Precedex_05" class="asblack asunderline"></span>mL/hr</li>
+                    <li>0.6 µg/Kg/hr 的話，是<span id="Precedex_06" class="asblack asunderline"></span>mL/hr</li>
+                    <li>0.7 µg/Kg/hr 的話，是<span id="Precedex_07" class="asblack asunderline"></span>mL/hr</li>
+                    <li>0.8 µg/Kg/hr 的話，是<span id="Precedex_08" class="asblack asunderline"></span>mL/hr</li>
+                    <li class="markit asblack">預計 Precedex 下刀前考慮設為<input type="number" id="Precedex_pr" value="3.4"
+                            step="0.1" min="0.1" max="50" />mL/hr</li>
+                </ul>
+            </li>
+        </ul>
+        <hr />
+        <p class="markit asblack">
+            Emergence 用藥
+        </p>
+        <ul>
+            <li>
+                Ondansetron (Zofran®) (2mg/mL)
+                <ul>
+                    <li>0.1 mg/Kg IV 的話，是<span id="Ondansetron_01" class="asblack asunderline"></span>mL</li>
+                    <li>0.2 mg/Kg IV 的話，是<span id="Ondansetron_02" class="asblack asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Ondansetron 準備給予<input type="number" id="Ondansetron_pr" value="1.5"
+                            step="0.1" min="0.1" max="4" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Sugammadex (Bridion®) (100 mg/ml)
+                <ul>
+                    <li>常規逆轉 2 mg/Kg 的話，是<span id="sugammadex_E_2" class="asblack asunderline"></span>mL</li>
+                    <li>常規逆轉 4 mg/Kg 的話，是<span id="sugammadex_E_4" class="asblack asunderline"></span>mL</li>
+                    <li>立即逆轉 16 mg/Kg 的話，是<span id="sugammadex_E_16" class="asred asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Sugammadex 準備給予<input type="number" id="sugammadex_E_pr" value="1"
+                            step="0.1" min="0.1" max="10" />mL</li>
+                </ul>
+            </li>
+            <li>
+                Acetamol®<br />(包裝含 Propacetamol 1000 mg/amp<br />與 專用溶劑 Sodium citrate 100 mg/ 5ml/ amp)
+                <ul>
+                    <li>與專用溶液混合均勻之後，會得到 Acetamol® (Propacetamol 200 mg/mL)</li>
+                    <li>而 Acetamol® (Propacetamol 200 mg/mL) 這相當於 Paracetamol 100 mg/mL</li>
+                    <li>30 mg/Kg Q6H slow IV push 的話，是<span id="Acetamol_E_30" class="asblue asunderline"></span>mL</li>
+                    <li class="markit asblack">預計 Acetamol® 準備給予<input type="number" id="Acetamol_E_pr" value="3.5"
+                            step="0.1" min="0.1" max="5" />mL</li>
+                </ul>
+            </li>
+        </ul>
+        <p>
+            <button type="button" onclick="showresult_2()">
+                預計的用量輸入後<br />按此處會進行統整<br />整理相關準備事項<br />
+            </button>
+        </p>
+        <hr />
+    </div>
+    <div id="reportresult_2" style="display: none;">
+        <p class="markit asblack">
+            小朋友的年齡是<span id="age_2" class="markit asblack asunderline"></span>歲，<br />
+            體重<span id="bw_2" class="markit asblack asunderline"></span>Kg，
+            身高<span id="bh_2" class="markit asblack asunderline"></span>cm
+        </p>
+        <hr />
+        <p class="markit asblack">口服藥物請準備：</p>
+        <ul>
+            <li>Ketamine<span id="report_2_ketamine" class="markit asblack asunderline"></span>mL</li>
+            <li>Midazolam<span id="report_2_midazolam" class="markit asblack asunderline"></span>mL</li>
+            <li>Vena<span id="report_2_vena" class="markit asblack asunderline"></span>mL</li>
+            <li>養樂多</li>
+        </ul>
+        <p class="markit asblack">Induction 藥物請準備：</p>
+        <ul>
+            <li>Glycopyrrolate (Robinul®)<span id="report_2_glycopyrrolate"
+                    class="markit asblack asunderline"></span>mL<br />(加進去那管會在前場直接推的 Propofol 裡面)</li>
+            <li>Rocuronium<span id="report_2_rocuronium" class="markit asblack asunderline"></span>mL<br />(務必先確認 mask
+                ventilation 可行)</li>
+            <li>Sugammadex<span id="report_2_sugammadex" class="markit asblack asunderline"></span>mL<br />(先不抽但緊急時要有)
+            </li>
+            <li>Fentanyl<span id="report_2_Fentanyl" class="markit asblack asunderline"></span>mL<br />(看情況給予)</li>
+        </ul>
+        <p class="markit asblack">輔助用藥請準備：</p>
+        <ul>
+            <li>Dexamethasone<span id="report_2_Dexamethasone" class="markit asblack asunderline"></span>mL (放 bag 裡面)
+            </li>
+            <li>Acetamol<span id="report_2_Acetamol" class="markit asblack asunderline"></span>mL (slow IV
+                push)<br />(已混合專用溶劑 Sodium citrate 5ml)</li>
+            <li>Ketorolac<span id="report_2_Ketorolac" class="markit asblack asunderline"></span>mL (IV push)</li>
+            <li>Transamin<span id="report_2_Transamin" class="markit asblack asunderline"></span>mL (放 bag
+                裡面)<br />(再視情況 Q6-8H PRN)</li>
+            <li>Cefazolin<span id="report_2_Cefazolin" class="markit asblack asunderline"></span>mL (放 bag 裡面 Q6H
+                給予)<br />(濃度是假設以 5mL 的 N/S 或 D5S 溶解 1g 乾粉計算)</li>
+            <li>Gentamicin<span id="report_2_Gentamicin" class="markit asblack asunderline"></span>mL (放 bag 裡面 Q8H 給予)
+            </li>
+        </ul>
+        <p class="markit asblack">Maintenance 用藥請設定：</p>
+        <ul>
+            <li>Rocuronium<span id="report_2_rocuronium_M"
+                    class="markit asblack asunderline"></span>mL/hr<br />(隨時視情況調整)</li>
+            <li>Alfentanil<span id="report_2_Alfentanil" class="markit asblack asunderline"></span>mL/hr<br />(因為很貴，要搭配
+                Fentanyl IV Bolus 儘快減少用量)</li>
+            <li>Precedex<span id="report_2_Precedex" class="markit asblack asunderline"></span>mL/hr<br />(隨時視情況調整，請密切注意
+                heart rate)</li>
+        </ul>
+        <p class="markit asblack">Emergence 藥物請準備：</p>
+        <ul>
+            <li>Ondansetron (Zofran®)<span id="report_2_Ondansetron"
+                    class="markit asblack asunderline"></span>mL<br />(注意不同廠牌的藥物濃度是否相同)</li>
+            <li>Sugammadex<span id="report_2_sugammadex_E"
+                    class="markit asblack asunderline"></span>mL<br />(洗好頭之後，準備拔管前再給)</li>
+            <li>Acetamol<span id="report_2_Acetamol_E" class="markit asblack asunderline"></span>mL (slow IV
+                push)<br />(已混合專用溶劑 Sodium citrate 5ml)</li>
+        </ul>
+        <p>
+            <button type="button" onclick="showresult_3()" id="button_3" style="display: block;">
+                上述建議經確認後<br />按此處轉單一頁面<br />可列印成檢查清單<br />
+            </button>
+            <button type="button" onclick="showresult_4()" id="button_4" style="display: none;">
+                按此處<br />回前頁
+            </button>
+        </p>
+    </div>
+</body>
+
+</html>
