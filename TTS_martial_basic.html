@@ -54,8 +54,7 @@
         }
     </style>
     <script>
-        function start() {
-            const synth = window.speechSynthesis;
+    const synth = window.speechSynthesis;
 
             const speak = (msg) => {
                 let u = new SpeechSynthesisUtterance();
@@ -105,6 +104,8 @@
 
                 synth.speak(u);
             };
+        function start() {
+            
             speak(
                 `觀自在菩薩。行深般若波羅蜜多時。照見五蘊皆空。度一切苦厄。
 舍利子。色不異空。空不異色。色即是空。空即是色。受想行識。
