@@ -105,7 +105,7 @@
         };
         //
         // 製作一個發出嗶聲的函式
-        function beep(sec){
+        function beep(){
             // 創建一個 AudioContext
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             // 創建一個 OscillatorNode 來生成 beep 聲
@@ -113,17 +113,15 @@
             oscillator.type = 'sine'; // 可以是 sine, square, sawtooth, triangle
             oscillator.frequency.value = 440; // 頻率，可以調整音高
             oscillator.connect(audioCtx.destination);
-            for (let s = 0; s < sec; s++) {
-                oscillator.start(1); // 意即一秒鐘後才發出聲音
-                oscillator.stop(0.5);
-            }
+            oscillator.start(1); // 意即一秒鐘後才發出聲音
+            oscillator.stop(10);
             audioCtx.close();
         }
         //
         //
         function start() {
-            say("觀自在菩薩2");
-            beep(10);
+            say("觀自在菩薩3");
+            beep();
             say("你要讀出的中文內容1");
             say("你要讀出的中文內容2");
         }
