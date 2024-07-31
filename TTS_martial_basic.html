@@ -119,9 +119,27 @@
         }
         //
         //
+function beep2 () {
+  /* 进行 audio 上下文、音源和输出的常规设定 */
+  const AudioContext = window.AudioContext || window.webkitAudioContext
+  const audioCtx = new AudioContext()
+  const oscillator = audioCtx.createOscillator()
+  const destNode = audioCtx.destination
+  oscillator.connect(destNode)
+  /* 常规设定结束 */
+
+  // 设置鲨鱼齿波形，还可以赋值的预设值为：sine、square 和 triangle
+  oscillator.type = 'sawtooth'
+  // 设置振荡器频率为 262Hz，也就是中音 do
+  oscillator.frequency.setValueAtTime(262, audioCtx.currentTime)
+  oscillator.start(audioCtx.currentTime)
+  oscillator.stop(audioCtx.currentTime + 1)
+}
+        //
+        //
         function start() {
-            say("觀自在菩薩3");
-            beep();
+            say("觀自在菩薩5");
+            beep2();
             say("你要讀出的中文內容1");
             say("你要讀出的中文內容2");
         }
