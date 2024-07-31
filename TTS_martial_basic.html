@@ -105,7 +105,7 @@
         };
         //
         // 製作一個發出嗶聲的函式
-        function beep(){
+        function beep() {
             // 創建一個 AudioContext
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             // 創建一個 OscillatorNode 來生成 beep 聲
@@ -119,22 +119,22 @@
         }
         //
         //
-function beep2 () {
-  /* 进行 audio 上下文、音源和输出的常规设定 */
-  const AudioContext = window.AudioContext || window.webkitAudioContext
-  const audioCtx = new AudioContext()
-  const oscillator = audioCtx.createOscillator()
-  const destNode = audioCtx.destination
-  oscillator.connect(destNode)
-  /* 常规设定结束 */
+        function beep2() {
+            /* 进行 audio 上下文、音源和输出的常规设定 */
+            const AudioContext = window.AudioContext || window.webkitAudioContext
+            const audioCtx = new AudioContext()
+            const oscillator = audioCtx.createOscillator()
+            const destNode = audioCtx.destination
+            oscillator.connect(destNode)
+            /* 常规设定结束 */
 
-  // 设置鲨鱼齿波形，还可以赋值的预设值为：sine、square 和 triangle
-  oscillator.type = 'sawtooth'
-  // 设置振荡器频率为 262Hz，也就是中音 do
-  oscillator.frequency.setValueAtTime(262, audioCtx.currentTime)
-  oscillator.start(audioCtx.currentTime)
-  oscillator.stop(audioCtx.currentTime + 1)
-}
+            // 设置鲨鱼齿波形，还可以赋值的预设值为：sine、square 和 triangle
+            oscillator.type = 'sawtooth'
+            // 设置振荡器频率为 262Hz，也就是中音 do
+            oscillator.frequency.setValueAtTime(262, audioCtx.currentTime)
+            oscillator.start(audioCtx.currentTime)
+            oscillator.stop(audioCtx.currentTime + 1)
+        }
         //
         //
         function start() {
