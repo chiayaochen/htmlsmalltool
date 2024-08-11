@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5引入了一種讓網頁設計師通過標籤控制用戶的 viewport (可見區域)的方法。viewport 隨著設備的不同而變化，而且在手機上比在電腦屏幕上更小。 -->
+    <title>基本功口令</title>
+    <!-- 這邊設定CSS樣式 -->
+    <style>
+        /* 這邊是填寫要設定的CSS樣式 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;400;900&display=swap');
+
+        * {
+            font-family: 'Noto Serif TC', serif, sans-serif;
+            font-weight: 200;
+            font-size: medium;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background-image: linear-gradient(180deg, #FFFFFF, #81d8d0);
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        div {
+            font-weight: normal;
+            font-size: medium;
+            text-align: left;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        #div_show {
+            width: 100%;
+            text-align: center;
+            font-size: calc(10px + 6vw);
+            /* 初始字體大小 */
+            white-space: nowrap;
+            /* 防止文字換行 */
+        }
+
+        input {
+            font-weight: normal;
+            font-size: medium;
+            text-align: left;
+        }
+    </style>
+    <script>
+        function change_num() {
+            let input_num_1 = parseInt(document.getElementById("num_1").value);
+            let input_num_2 = parseInt(document.getElementById("num_2").value);
+            let input_num_3 = parseInt(document.getElementById("num_3").value);
+            let input_num_4 = parseInt(document.getElementById("num_4").value);
+            let input_num_5 = parseInt(document.getElementById("num_5").value);
+            let text_num_1 = document.getElementById("text_num_1");
+            let text_num_2 = document.getElementById("text_num_2");
+            let text_num_3 = document.getElementById("text_num_3");
+            let text_num_4 = document.getElementById("text_num_4");
+            let text_num_5 = document.getElementById("text_num_5");
+            text_num_1.textContent = input_num_1.toString();
+            text_num_2.textContent = input_num_2.toString();
+            text_num_3.textContent = input_num_3.toString();
+            text_num_4.textContent = input_num_4.toString();
+            text_num_5.textContent = input_num_5.toString();
+        }
+        // 
+        // 
+        const synth = window.speechSynthesis;
+        const beep_tone = 880;
+        async function say(msg, after_seconds_to_do_next, after_seconds_to_say) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    // 語音設置和播放代碼
+                    let u = new SpeechSynthesisUtterance();
+                    //u.lang = 'zh-TW'; //這句絕對不要用
+                    u.text = msg;
+                    // 
+                    // 用 synth.getVoices() 取得支援的語音列表
+                    // 要注意網頁開啟後首次執行 window.speechSynthesis 後才會把語音功能載入
+                    // 大概要花幾秒鐘的時間才能完全載入,再來才能正確取得語音列表
+                    // 所以要想辦法延遲 synth.getVoices(); 的執行時間
+                    // 
+                    // 或是使用下面的事件偵測
+                    // (這個事件在載入過程會被觸發多次,很難用,他是偵測changed不是偵測完全載入完成,
+                    // 但這是window.speechSynthesis裡唯一的一個事件偵測,沒其他選擇)
+                    // var voices;
+                    // window.speechSynthesis.onvoiceschanged = function() {
+                    //   voices = synth.getVoices();
+                    //   // 注意 speak() 不要直接寫在這裡,不然會被重覆觸發多次
+                    // };
+                    let voices = synth.getVoices();
+
+                    for (let index = 0; index < voices.length; index++) {
+                        /*
+                        "Google US English"
+                        "Google 日本語"
+                        "Google 普通话（中国大陆）"
+                        "Google 粤語（香港）"
+                        "Google 國語（臺灣）"
+                        */
+
+                        //console.log(voices[index].name);
+                        if (voices[index].name == "Microsoft HsiaoChen Online (Natural) - Chinese (Taiwan)") { //HsiaoChen (Neural) - 曉臻 (MS Edge專用)
+                            u.voice = voices[index];
+                            break;
+                        } else if (voices[index].name == "Google 國語（臺灣）") { //Chrome專用
+                            u.voice = voices[index];
+                            break;
+                        } else {
+                            //u.lang = 'zh-TW'; //這邊可能會有語音又被切回系統語音的問題
+                        }
+
+                        //當最後一個都還沒找到時才設u.lang
+                        if (index + 1 === voices.length) {
+                            u.lang = 'zh-TW';
+                        }
+                    }
+                    synth.speak(u);
+                    u.onend = () => { setTimeout(resolve, after_seconds_to_do_next * 1000); }
+                }, after_seconds_to_say * 1000);
+            });
+        }
+        //
+        async function beep(sound_frquency, waiting_seconds) {
+            return new Promise((resolve, reject) => {
+                /* 進行 audio 上下文、音源和輸出的常規設定 */
+                const AudioContext = window.AudioContext || window.webkitAudioContext
+                const audioCtx = new AudioContext();
+                const oscillator = audioCtx.createOscillator();
+                const destNode = audioCtx.destination
+                oscillator.connect(destNode);
+                /* 常規設定結束 */
+
+                // 設置sawtooth波形，還可以賦值的預設值為：sine、square 和 triangle
+                oscillator.type = 'square';
+                // 設置振蕩器頻率為 262Hz，也就是中音 do
+                oscillator.frequency.setValueAtTime(sound_frquency, audioCtx.currentTime);
+                oscillator.start(audioCtx.currentTime + waiting_seconds);
+                oscillator.stop(audioCtx.currentTime + waiting_seconds + 0.1);
+                oscillator.onended = () => { resolve() };
+            })
+        }
+        //
+        async function beepMultipleTimes(times) {
+            for (let i = 0; i < (times + 1); i++) {
+                if (i == 0) {
+                    // 零點
+                    await beep(beep_tone * 1, 0)
+                } else if ((times > 9) && (i >= (times - 2)) && (i < times)) {
+                    // 結束前三秒
+                    await beep(beep_tone * 3, 1)
+                } else if (i == times) {
+                    // 結束前一秒
+                    await beep(beep_tone * 4, 1)
+                } else if ((times > 10) && (i < (times - 2)) && ((i % 10) == 0)) {
+                    // 每滿十秒
+                    await beep(beep_tone * 1, 1)
+                } else {
+                    await beep(beep_tone * 2, 1);
+                }
+            }
+            return Promise.resolve();
+        }
+        async function start() {
+            const startTime = performance.now(); // 記錄開始時間
+            let text_div_show = document.getElementById("div_show");
+            let input_num_1 = parseInt(document.getElementById("num_1").value);
+            let input_num_2 = parseInt(document.getElementById("num_2").value);
+            let input_num_3 = parseInt(document.getElementById("num_3").value);
+            let input_num_4 = parseInt(document.getElementById("num_4").value);
+            let input_num_5 = parseInt(document.getElementById("num_5").value);
+            text_div_show.textContent = '基本功' + ' ' + input_num_1 + ' ' + '輪';
+            await say('基本功' + ' ' + input_num_1 + ' ' + '輪', 0, 0);
+            text_div_show.textContent = '預備';
+            await say('預備', 0, 0);
+            for (let i = 0; i < input_num_1; i++) {
+                text_div_show.textContent = '馬步' + ':' + (i + 1) + '/' + (input_num_1);
+                await say('馬步' + ' ' + input_num_2 + ' ' + '秒', 0, 0);
+                await beepMultipleTimes(input_num_2);
+                // 
+                text_div_show.textContent = '左獨立' + ':' + (i + 1) + '/' + (input_num_1);
+                await say('左獨立' + ' ' + input_num_3 + ' ' + '秒', 0, 0);
+                await beepMultipleTimes(input_num_3);
+                // 
+                text_div_show.textContent = '右仆步' + ':' + (i + 1) + '/' + (input_num_1);
+                await say('右仆步' + ' ' + input_num_3 + ' ' + '秒', 0, 0);
+                await beepMultipleTimes(input_num_3);
+                // 
+                text_div_show.textContent = '右弓步' + ':' + (i + 1) + '/' + (input_num_1);
+                await say('右弓步' + ' ' + input_num_4 + ' ' + '秒', 0, 0);
+                await beepMultipleTimes(input_num_4);
+                // 
+                text_div_show.textContent = '收' + ':' + (i + 1) + '/' + (input_num_1);
+                await say('收', 0, 0);
+                await beepMultipleTimes(10);
+                // 
+                text_div_show.textContent = '馬步' + ':' + (i + 1) + '/' + (input_num_1);
+                await say('馬步' + ' ' + input_num_2 + ' ' + '秒', 0, 0);
+                await beepMultipleTimes(input_num_2);
+                // 
+                text_div_show.textContent = '右獨立' + ':' + (i + 1) + '/' + (input_num_1);
+                await say('右獨立' + ' ' + input_num_3 + ' ' + '秒', 0, 0);
+                await beepMultipleTimes(input_num_3);
+                // 
+                text_div_show.textContent = '左仆步' + ':' + (i + 1) + '/' + (input_num_1);
+                await say('左仆步' + ' ' + input_num_3 + ' ' + '秒', 0, 0);
+                await beepMultipleTimes(input_num_3);
+                // 
+                text_div_show.textContent = '左弓步' + ':' + (i + 1) + '/' + (input_num_1);
+                await say('左弓步' + ' ' + input_num_4 + ' ' + '秒', 0, 0);
+                await beepMultipleTimes(input_num_4);
+                // 
+                text_div_show.textContent = '收' + ':' + (i + 1) + '/' + (input_num_1);
+                await say('收', 0, 0);
+                await beepMultipleTimes(10);
+            }
+            text_div_show.textContent = '拉筋休息' + ':' + (i + 1) + '/' + (input_num_1);
+            await say('拉筋休息', 0, 0);
+            const endTime = performance.now(); // 記錄結束時間
+            const totalTime = endTime - startTime; // 計算總時間
+            // 將總時間轉換為分鐘和秒數
+            const totalMinutes = Math.floor(totalTime / 60000);
+            const totalSeconds = ((totalTime % 60000) / 1000).toFixed(0);
+            await say('總計時間' + ' ' + totalMinutes + ' ' + '分' + ' ' + totalSeconds + ' ' + '秒', 0, 0);
+            await say('程式執行結束', 0, 0);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div id="div_show" style="display: block;">
+            基本功練習
+        </div>
+        <div id="div_select_option" style="display: block;">
+            <div style="display: block;">
+                <hr />
+            </div>
+            <table style="border: 0px; padding: 0px; margin-left: 0px;">
+                <tr>
+                    <td>重複次數</td>
+                    <td id="text_num_1" style="width: 1em; text-align: right;">3</td>
+                    <td>輪</td>
+                    <td><input type="range" id="num_1" value="3" min="1" max="5" step="1" onchange="change_num()"
+                            style="width: 60vmin;" /></td>
+                </tr>
+                <tr>
+                    <td>馬步</td>
+                    <td id="text_num_2" style="width: 1em; text-align: right;">40</td>
+                    <td>秒</td>
+                    <td><input type="range" id="num_2" value="40" min="20" max="90" step="5" onchange="change_num()"
+                            style="width: 60vmin;" /></td>
+                </tr>
+                <tr>
+                    <td>獨立步</td>
+                    <td id="text_num_3" style="width: 1em; text-align: right;">15</td>
+                    <td>秒</td>
+                    <td><input type="range" id="num_3" value="15" min="10" max="20" step="5" onchange="change_num()"
+                            style="width: 60vmin;" /></td>
+                </tr>
+                <tr>
+                    <td>仆步</td>
+                    <td id="text_num_4" style="width: 1em; text-align: right;">15</td>
+                    <td>秒</td>
+                    <td><input type="range" id="num_4" value="15" min="10" max="20" step="5" onchange="change_num()"
+                            style="width: 60vmin;" /></td>
+                </tr>
+                <tr>
+                    <td>弓步</td>
+                    <td id="text_num_5" style="width: 1em; text-align: right;">20</td>
+                    <td>秒</td>
+                    <td><input type="range" id="num_5" value="20" min="20" max="60" step="5" onchange="change_num()"
+                            style="width: 60vmin;" /></td>
+                </tr>
+            </table>
+            <hr />
+        </div>
+        <div id="div_bttn" style="display: block;">
+            <p>
+                <button type="button" onclick="start()">開始練習</button>
+                <button type="button" onclick="location.reload()">重新載入</button>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>
