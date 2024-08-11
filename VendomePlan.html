@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5引入了一種讓網頁設計師通過標籤控制用戶的 viewport (可見區域)的方法。viewport 隨著設備的不同而變化，而且在手機上比在電腦屏幕上更小。 -->
+    <title>訢辰凡登麻醉計畫</title>
+    <!-- 這邊設定CSS樣式 -->
+    <style>
+        * {
+            font-family: sans-serif;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background-image: linear-gradient(180deg, #FFFFFF, #81d8d0);
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        div {
+            font-weight: normal;
+            font-size: medium;
+            text-align: left;
+        }
+
+        input {
+            font-weight: normal;
+            font-size: medium;
+            text-align: left;
+        }
+
+        button {
+            height: 3rem;
+        }
+    </style>
+    <script>
+        function formatSchedule_1(input) {
+            // Split the input by line breaks into an array of individual entries
+            let entries = input.split('\n');
+
+            // Add a separator line before and after each entry
+            let formattedEntries = entries.map(entry => `—————————\n\n${entry}\n\n`);
+
+            // Join the formatted entries back into a single string with line breaks
+            return '凡登四樓備藥表單\n凡登六樓備藥表單\n' + (formattedEntries.join('\n')) + '\n—————————';
+        }
+        function formatSchedule_2(inputString) {
+            // Regular expression to match the time range
+            const timeRegex = /(\d{1,2}:\d{2} - \d{1,2}:\d{2})/;
+
+            // Find the index of the matched time range
+            const timeIndex = inputString.search(timeRegex);
+
+
+
+            // If a time range is found, split the string and format the output
+            if (timeIndex !== -1) {
+                const timeRange = inputString.match(timeRegex)[0];
+                const rest = inputString.slice(0, timeIndex).trim() + inputString.slice(timeIndex + timeRange.length).trim();
+                return `${timeRange}\n${rest}`;
+            } else {
+                // If no time range is found, return the original string
+                return inputString;
+            }
+        }
+        function formatSchedule_3(input) {
+            input = input.replace(/dr\./gi, "Dr.");
+            input = input.replace(/feng/gi, "Feng");
+            input = input.replace(/chen/gi, "Chen");
+            input = input.replace(/zc/gi, "ZC");
+            input = input.replace(/lin/gi, "Lin");
+            input = input.replace(/lai/gi, "Lai");
+            input = input.replace(/ogs/gi, "OGS");
+            input = input.replace(/ff/gi, "FF");
+            input = input.replace(/btx/gi, "BTX");
+            input = input.replace(/lo\,e\,ino\,ft/gi, "LO,E,INO,FT");
+            input = input.replace(/ga/gi, "GA");
+            input = input.replace(/ivg/gi, "IVG");
+            return input;
+        }
+        function formatSchedule_4(input) {
+            let entries = input.split('\n');
+            let output = '';
+            for (entry of entries) {
+                let entry_format = formatSchedule_2(entry);
+                entry_format = formatSchedule_3(entry_format);
+                output += entry_format + '\n'
+            }
+            return output;
+        }
+        function apply_type() {
+            let div_text_input = document.getElementById("div_text_input");
+            let text_input = document.getElementById("text_input");
+            let div_text_output = document.getElementById("div_text_output");
+            let text_output = document.getElementById("text_output");
+            let bttn_apply = document.getElementById("apply_type");
+            let bttn_change = document.getElementById("change_type");
+            let bttn_copy = document.getElementById("copy_text");
+            div_text_input.style = "display: none;";
+            bttn_apply.style = "display: none;";
+            bttn_change.style = "display: inline-block";
+            bttn_copy.style = "display: inline-block;";
+            div_text_output.style = "display: block;";
+            // 
+            // 
+            let text_original = text_input.value + "";
+            let text_result = "";
+            text_result = formatSchedule_1(text_original);
+            text_result = formatSchedule_4(text_result);
+            text_output.value = "";
+            text_output.value = text_result;
+            // 
+            // 
+            // 
+        }
+        function change_type() {
+            let div_text_input = document.getElementById("div_text_input");
+            let bttn_apply = document.getElementById("apply_type");
+            let bttn_change = document.getElementById("change_type");
+            let bttn_copy = document.getElementById("copy_text");
+            let div_text_output = document.getElementById("div_text_output");
+            div_text_input.style = "display: block;";
+            bttn_apply.style = "display: inline-block;";
+            bttn_change.style = "display: none;";
+            bttn_copy.style = "display: none;";
+            div_text_output.style = "display: none;";
+        }
+        function copy_text() {
+            let text_output = document.getElementById("text_output");
+            navigator.clipboard.writeText(text_output.value);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div id="div_text_input" style="width:100vmin; display: block;">
+            請輸入要轉換的文字：<br />
+            <textarea id="text_input" style="width:90vmin; height: 60vmin; align-items: center;"></textarea>
+        </div>
+        <div id="div_text_output" style="width:100vmin; display: none;">
+            轉換之後的文字：<br />
+            <textarea id="text_output" style="width:90vmin; height: 60vmin; align-items: center;"></textarea>
+        </div>
+        <div id="div_select_setting" style="display: block;">
+            <button type="button" onclick="apply_type()" id="apply_type" style="display: inline-block;">請進行轉換</button>
+            <button type="button" onclick="change_type()" id="change_type" style="display: none;">回到上個步驟</button>
+            <button type="button" onclick="copy_text()" id="copy_text" style="display: none;">複製到剪貼簿</button>
+            <hr />
+        </div>
+    </div>
+</body>
+
+</html>
